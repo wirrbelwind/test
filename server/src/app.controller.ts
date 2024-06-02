@@ -17,9 +17,6 @@ export class AppController {
     type: HelloWorldDto
   })
   async getHello(): Promise<HelloWorldDto> {
-    const users = await this.dbService.user.findMany({})
-    console.log(users);
-
     return { message: this.appService.getHello() }
   }
 }
