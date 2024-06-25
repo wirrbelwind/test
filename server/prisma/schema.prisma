@@ -13,6 +13,9 @@ model Account {
   id       Int      @id @default(autoincrement())
   listener Listener?
   artist   Artist?
+  email String
+  passwordHash String
+  salt String
 }
 
 model Listener {
@@ -25,6 +28,7 @@ model Listener {
   likedAudios Audio[] @relation("Listeners_Liked_Audios")
   recommendations Audio[] @relation("Listeners_Recommended_audios")
   newReleases Audio[] @relation("Listener_Released_Audios")
+  username String
 }
 
 model Artist {
@@ -33,6 +37,7 @@ model Artist {
   account           Account              @relation(fields: [accountId], references: [id])
   collections       ArtistCollection[]   @relation("Artist_ArtistCollections")
   followers         Listener[]           @relation("Listeners_Artists")
+  username String
 }
 
 model ArtistCollection {

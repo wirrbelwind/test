@@ -1,0 +1,142 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Account {
+  id Int [pk, increment]
+  listener Listener
+  artist Artist
+}
+
+Table Listener {
+  id Int [pk, increment]
+  accountId Int [unique, not null]
+  account Account [not null]
+  followedArtists Artist [not null]
+  likedArtistCollections ArtistCollection [not null]
+  likedGenreCollections GenreCollection [not null]
+  likedAudios Audio [not null]
+  recommendations Audio [not null]
+  newReleases Audio [not null]
+}
+
+Table Artist {
+  id Int [pk, increment]
+  accountId Int [unique, not null]
+  account Account [not null]
+  collections ArtistCollection [not null]
+  followers Listener [not null]
+}
+
+Table ArtistCollection {
+  id Int [pk, increment]
+  type ArtistCollectionType [not null]
+  audios Audio [not null]
+  artists Artist [not null]
+  listeners Listener [not null]
+  genres Genre [not null]
+}
+
+Table Genre {
+  id Int [pk, increment]
+  title String [not null]
+  genreCollections GenreCollection [not null]
+  artistCollections ArtistCollection [not null]
+}
+
+Table GenreCollection {
+  id Int [pk, increment]
+  title String [not null]
+  description String
+  avatarUrl String
+  audios Audio [not null]
+  listeners Listener [not null]
+  genres Genre [not null]
+}
+
+Table Audio {
+  id Int [pk, increment]
+  title String [not null]
+  url String [not null]
+  artistCollectionId Int
+  artistCollection ArtistCollection
+  genreCollection GenreCollection [not null]
+  tags AudioTag [not null]
+  likedBy Listener [not null]
+  recommendedTo Listener [not null]
+  releasedTo Listener [not null]
+}
+
+Table AudioTag {
+  id Int [pk, increment]
+  name String [not null]
+  audios Audio [not null]
+}
+
+Table Listeners_Artists {
+  followedartistsId Int [ref: > Artist.id]
+  followersId Int [ref: > Listener.id]
+}
+
+Table Listeners_LikedArtistCollections {
+  likedartistcollectionsId Int [ref: > ArtistCollection.id]
+  listenersId Int [ref: > Listener.id]
+}
+
+Table Listeners_Liked_GenreCollections {
+  likedgenrecollectionsId Int [ref: > GenreCollection.id]
+  listenersId Int [ref: > Listener.id]
+}
+
+Table Listeners_Liked_Audios {
+  likedaudiosId Int [ref: > Audio.id]
+  likedbyId Int [ref: > Listener.id]
+}
+
+Table Listeners_Recommended_audios {
+  recommendationsId Int [ref: > Audio.id]
+  recommendedtoId Int [ref: > Listener.id]
+}
+
+Table Listener_Released_Audios {
+  newreleasesId Int [ref: > Audio.id]
+  releasedtoId Int [ref: > Listener.id]
+}
+
+Table Artist_ArtistCollections {
+  collectionsId Int [ref: > ArtistCollection.id]
+  artistsId Int [ref: > Artist.id]
+}
+
+Table Genres_ArtistCollections {
+  genresId Int [ref: > Genre.id]
+  artistcollectionsId Int [ref: > ArtistCollection.id]
+}
+
+Table Genres_GenreCollections {
+  genrecollectionsId Int [ref: > GenreCollection.id]
+  genresId Int [ref: > Genre.id]
+}
+
+Table Audios_GenreCollections {
+  audiosId Int [ref: > Audio.id]
+  genrecollectionId Int [ref: > GenreCollection.id]
+}
+
+Table AudioToAudioTag {
+  tagsId Int [ref: > AudioTag.id]
+  audiosId Int [ref: > Audio.id]
+}
+
+Enum ArtistCollectionType {
+  single
+  ep
+  album
+  podcast
+}
+
+Ref: Listener.accountId - Account.id
+
+Ref: Artist.accountId - Account.id
+
+Ref: Audio.artistCollectionId > ArtistCollection.id
