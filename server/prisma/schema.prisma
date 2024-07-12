@@ -1,14 +1,12 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postgres@localhost:5432/postgres?schema=publicDATABASE_URL"
 }
 
 generator client {
   provider = "prisma-client-js"
 }
-generator dbml {
-  provider = "prisma-dbml-generator"
-}
+
 model Account {
   id       Int      @id @default(autoincrement())
   listener Listener?
@@ -29,6 +27,7 @@ model Listener {
   recommendations Audio[] @relation("Listeners_Recommended_audios")
   newReleases Audio[] @relation("Listener_Released_Audios")
   username String
+  avatarUrl String
 }
 
 model Artist {
@@ -38,6 +37,7 @@ model Artist {
   collections       ArtistCollection[]   @relation("Artist_ArtistCollections")
   followers         Listener[]           @relation("Listeners_Artists")
   username String
+  avatarUrl String
 }
 
 model ArtistCollection {

@@ -22,6 +22,7 @@ Table Listener {
   recommendations Audio [not null]
   newReleases Audio [not null]
   username String [not null]
+  avatarUrl String [not null]
 }
 
 Table Artist {
@@ -31,6 +32,7 @@ Table Artist {
   collections ArtistCollection [not null]
   followers Listener [not null]
   username String [not null]
+  avatarUrl String [not null]
 }
 
 Table ArtistCollection {
