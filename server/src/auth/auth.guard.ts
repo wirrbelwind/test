@@ -1,31 +1,43 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { Request } from 'express'
-import { CookieService } from './cookie.service';
+import { ACCESS_TOKEN_COOKIE_NAME, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_COOKIE_NAME, REFRESH_TOKEN_SECRET } from './constants';
 import { JwtService } from '@nestjs/jwt';
+import { AuthTokenService } from './auth-token.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
+    private authTokenService: AuthTokenService,
   ) { }
+
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const req = context.switchToHttp().getRequest() as Request
-    const token = req.cookies[CookieService.tokenKey]
+    const req = context.switchToHttp().getRequest()
+    const res = context.switchToHttp().getResponse()
 
-    if (!token) {
-      throw new UnauthorizedException()
+    const accessToken = req.cookies[ACCESS_TOKEN_COOKIE_NAME]
+    const refreshToken = req.cookies[REFRESH_TOKEN_COOKIE_NAME]
+
+    if (!accessToken && !refreshToken) {
+      return false
     }
 
-    try {
-      const sessionInfo = this.jwtService.verifyAsync(token, { secret: process.env.JWT_SECRET })
-      req['session'] = sessionInfo
+    let tokenData = {}
+
+    tokenData = this.authTokenService.validateToken(accessToken, ACCESS_TOKEN_SECRET)
+
+    if (!tokenData) {
+      tokenData = this.authTokenService.validateToken(refreshToken, REFRESH_TOKEN_SECRET)
     }
-    catch {
-      throw new UnauthorizedException()
+
+    if (!tokenData) {
+      return false
     }
+
+    delete tokenData['exp']
+    this.authTokenService.updateAuthTokens(res, tokenData)
 
     return true;
   }
