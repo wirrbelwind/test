@@ -1,0 +1,29 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AccountDto {
+  email: String!
+  id: Float!
+}
+
+input CreateAccountInput {
+  email: String!
+  listenerUsername: String!
+  password: String!
+}
+
+input LoginAccountInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createAccount(createAccountInput: CreateAccountInput!): AccountDto!
+  loginAccount(loginAccountInput: LoginAccountInput!): AccountDto!
+  logoutAccounthb(loginAccountInput: LoginAccountInput!): AccountDto!
+}
+
+type Query {
+  users: [AccountDto!]!
+}
