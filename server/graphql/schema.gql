@@ -4,24 +4,16 @@
 
 type AccountDto {
   email: String!
-  id: Float!
+  id: String!
 }
 
 input CreateAccountInput {
-  email: String!
-  listenerUsername: String!
-  password: String!
-}
-
-input LoginAccountInput {
   email: String!
   password: String!
 }
 
 type Mutation {
   createAccount(createAccountInput: CreateAccountInput!): AccountDto!
-  loginAccount(loginAccountInput: LoginAccountInput!): AccountDto!
-  logoutAccounthb(loginAccountInput: LoginAccountInput!): AccountDto!
 }
 
 type Query {
