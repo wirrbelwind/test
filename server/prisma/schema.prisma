@@ -8,7 +8,7 @@ generator client {
 }
 
 model Account {
-  id       Int      @id @default(autoincrement())
+  id       String      @id @default(uuid())
   listener Listener?
   artist   Artist?
   email String
@@ -18,7 +18,7 @@ model Account {
 
 model Listener {
   id Int @id @default(autoincrement())
-  accountId Int @unique
+  accountId String @unique
   account Account @relation(fields: [accountId], references: [id])
   followedArtists Artist[] @relation("Listeners_Artists")
   likedArtistCollections ArtistCollection[] @relation("Listeners_LikedArtistCollections")
@@ -32,7 +32,7 @@ model Listener {
 
 model Artist {
   id                Int                  @id @default(autoincrement())
-  accountId         Int                  @unique
+  accountId         String                  @unique
   account           Account              @relation(fields: [accountId], references: [id])
   collections       ArtistCollection[]   @relation("Artist_ArtistCollections")
   followers         Listener[]           @relation("Listeners_Artists")
