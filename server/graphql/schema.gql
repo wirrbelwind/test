@@ -5,6 +5,8 @@
 type AccountDto {
   email: String!
   id: String!
+  passwordHash: String!
+  salt: String!
 }
 
 input CreateAccountInput {
@@ -14,6 +16,7 @@ input CreateAccountInput {
 
 type Mutation {
   createAccount(createAccountInput: CreateAccountInput!): AccountDto!
+  logout: AccountDto!
 }
 
 type Query {

@@ -9,3 +9,6 @@ export const REFRESH_TOKEN_COOKIE_NAME = 'refreshToken'
 
 export const PASSWORD_MIN_LENGTH = 6
 export const PASSWORD_MAX_LENGTH = 50
+
+export const SALT_ROUNDS = 10
+export const SALT_MINOR_VERSION = 'a'

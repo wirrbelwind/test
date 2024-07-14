@@ -1,44 +1,49 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { ACCESS_TOKEN_COOKIE_NAME, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_COOKIE_NAME, REFRESH_TOKEN_SECRET } from './constants';
-import { JwtService } from '@nestjs/jwt';
-import { AuthTokenService } from './auth-token.service';
+// import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+// import { Observable } from 'rxjs';
+// import { ACCESS_TOKEN_COOKIE_NAME, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_COOKIE_NAME, REFRESH_TOKEN_SECRET } from './constants';
+// import { JwtService } from '@nestjs/jwt';
+// import { AuthTokenService } from './auth-token.service';
+// import { AccountDto } from './dto';
+// import { Context, GqlExecutionContext } from '@nestjs/graphql';
 
-@Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(
-    private jwtService: JwtService,
-    private authTokenService: AuthTokenService,
-  ) { }
+// @Injectable()
+// export class AuthGuard implements CanActivate {
+//   constructor(
+//     private jwtService: JwtService,
+//     private authTokenService: AuthTokenService,
+//   ) { }
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const req = context.switchToHttp().getRequest()
-    const res = context.switchToHttp().getResponse()
+//   canActivate(
+//     rawContext: ExecutionContext,
+//   ): boolean | Promise<boolean> | Observable<boolean> {
+//     const context = GqlExecutionContext.create(rawContext)
+//     const req = context.getContext().req
 
-    const accessToken = req.cookies[ACCESS_TOKEN_COOKIE_NAME]
-    const refreshToken = req.cookies[REFRESH_TOKEN_COOKIE_NAME]
+    
 
-    if (!accessToken && !refreshToken) {
-      return false
-    }
+//     const accessToken = req.cookies[ACCESS_TOKEN_COOKIE_NAME]
+//     const refreshToken = req.cookies[REFRESH_TOKEN_COOKIE_NAME]
 
-    let tokenData = {}
+//     console.log(req.cookies.test)
 
-    tokenData = this.authTokenService.validateToken(accessToken, ACCESS_TOKEN_SECRET)
+//     if (!accessToken && !refreshToken) {
+//       return false
+//     }
 
-    if (!tokenData) {
-      tokenData = this.authTokenService.validateToken(refreshToken, REFRESH_TOKEN_SECRET)
-    }
+//     let userDto = {}
 
-    if (!tokenData) {
-      return false
-    }
+//     userDto = this.authTokenService.validateToken(accessToken, ACCESS_TOKEN_SECRET)
 
-    delete tokenData['exp']
-    this.authTokenService.updateAuthTokens(res, tokenData)
+//     if (!userDto) {
+//       userDto = this.authTokenService.validateToken(refreshToken, REFRESH_TOKEN_SECRET)
+//     }
 
-    return true;
-  }
-}
+//     if (!userDto) {
+//       return false
+//     }
+
+//     delete userDto['exp']
+
+//     return true;
+//   }
+// }

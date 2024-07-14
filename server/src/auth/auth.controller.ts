@@ -12,18 +12,18 @@ export class AuthController {
 		private jwtService: JwtService,
 	) { }
 
-	@Get()
-	testTokens(@Res({ passthrough: true }) res: Response) {
-		const payload = { id: '12345', name: 'Wirbelwind' }
-		const tokens = this.authTokenService.generateAuthTokens(payload)
+	// @Get()
+	// testTokens(@Res({ passthrough: true }) res: Response) {
+	// 	const payload = { id: '12345', name: 'Wirbelwind' }
+	// 	const tokens = this.authTokenService.generateAuthTokens(payload)
 
-		res.cookie(ACCESS_TOKEN_COOKIE_NAME, tokens.accessToken)
-		res.cookie(REFRESH_TOKEN_COOKIE_NAME, tokens.refreshToken)
-	}
+	// 	res.cookie(ACCESS_TOKEN_COOKIE_NAME, tokens.accessToken)
+	// 	res.cookie(REFRESH_TOKEN_COOKIE_NAME, tokens.refreshToken)
+	// }
 
-	@Get('guard')
-	@UseGuards(AuthGuard)
-	testGuards() {
-		return 'Success'
-	}
+	// @Get('guard')
+	// @UseGuards(AuthGuard)
+	// testGuards() {
+	// 	return 'Success'
+	// }
 }
