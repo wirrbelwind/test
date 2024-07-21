@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
 
-export default function Home() {
+export function HomePage() {
   return (<>
     <Head>
       <title>Create Next App</title>
