@@ -1,10 +1,11 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { DbModule } from './db/db.module';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { AuthModule } from './auth/auth.module';
+import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
-import { AuthResolver } from './auth/auth.resolver';
+import { AuthModule } from './auth/auth.module';
+import { UserGuard } from './auth/user.guard';
+import { ArtistProfileModule } from './artist-profile/artist-profile.module';
 
 @Module({
   imports: [
@@ -21,11 +22,11 @@ import { AuthResolver } from './auth/auth.resolver';
       context: ({ req, res }) => ({ req, res }),
     }),
     AuthModule,
+    ArtistProfileModule,
   ],
   controllers: [
   ],
-  providers: [],
+  providers: [UserGuard],
 })
 export class AppModule {
-  
- }
+}

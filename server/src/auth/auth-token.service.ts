@@ -4,7 +4,6 @@ import { ACCESS_TOKEN_COOKIE_NAME, ACCESS_TOKEN_EXPIRATION, ACCESS_TOKEN_SECRET,
 import { Response } from 'express';
 import { AccountDto } from './dto';
 import { instanceToPlain } from 'class-transformer';
-import { ExtractJwt } from 'passport-jwt';
 
 @Injectable()
 export class AuthTokenService {
